@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.4.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.gotri</groupId>
-	<artifactId>swot-security</artifactId>
+	<artifactId>swot-security-providers-as-inmemory</artifactId>
 	<version>0.0.1</version>
-	<name>swot-security</name>
+	<name>swot-security-providers-as-inmemory</name>
 	<description>Spring Boot security swot</description>
 
 	<properties>
@@ -38,6 +39,10 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+    		<groupId>org.apache.tomcat.embed</groupId>
+    		<artifactId>tomcat-embed-jasper</artifactId>
+		</dependency>		
 	</dependencies>
 
 	<build>
@@ -49,4 +54,5 @@
 		</plugins>
 	</build>
 
+	<packaging>war</packaging>
 </project>

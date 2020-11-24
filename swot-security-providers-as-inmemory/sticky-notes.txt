@@ -1,0 +1,284 @@
+Jenkins 2.249.2
+git version 2.23.0
+Springboot : 2.1.9.RELEASE
+Hibernate : 5.3.12.Final
+
+spring-boot-starter-security 
+         extends WebSecurityConfigurerAdapter and 
+                     1. configure(HttpSecurity http)
+                     2. configure(AuthenticationManagerBuilder auth) 
+                                  auth.authenticationProvider(new CustomAuthenticationProvider());
+for password encryption, override the passwordEncoder() login with ur custom password encrption login
+
+Internationlisation
+ extends WebMvcConfigurerAdapter and add default local, create localeChangeInterceptor and register it and finally define the message source
+
+public interface UserRepository extends JpaRepository<User, Long> {
+
+
+ThreadPoolExecutor and ScheduledThreadPoolExecutor 
+
+concurrenthashmap 
+Complete hashmap will be divided into regions and for each regions, there is different lock, so it not only provides methods which can perform atomic operation ( computeIfAbsent ) but also helps to perform 
+concurrent access.
+
+copyOnWriteArrayList : uc--> when doing 1000 reads abd 20 writes
+
+abstract : existing in thought or as an idea but not having a physical or concrete existence.
+
+Network socket: It is a software abstraction for how comminication happens over the internet. It is basically an abstract meeting point for 2 things that want to exchange data. So here we have server listening to a socket port and says I am ready to exchange data to somebody and I don't who and the client connects to the socket and transmit data and then disconnects and all transaction which happens in network happens in that mode. In FTP data can transfer from server to client.
+
+In computing, a stateless protocol is a communications protocol that treats each request as an independent transaction that is unrelated to any previous request so that the communication consists of independent pairs of requests and responses.
+A stateless protocol does not require the server to retain session information or status about each communications partner for the duration of multiple requests. In contrast, a protocol which requires keeping of the internal state on the server is known as a stateful protocol.
+
+PDU - Protocal Data Unit ( The name for Data at a Specific OSI layer) 
+
+Transport --> Segment
+Network --> Datagram or packets
+Data Link --> Frames
+Physical --> bits
+
+https://networkengineering.stackexchange.com/questions/13438/is-a-tcp-three-way-handshake-required-for-an-http-post#:~:text=3%20Answers&text=Both%20HTTP%20GET%20and%20HTTP,such%20as%20HTTP)%20starts%20work.
+
+TCP Handshake : Tim Burner Lee
+------------------
+Client to Server SYN
+Server to Client SYN-ACK
+Client to Server ACK
+
+Because in its original design, HTTP is a relatively simple file transfer protocol:
+
+make a request for a file named by a URL,
+get the file in response,
+disconnect.
+
+There was no relationship (state) maintained between one connection and another, even from the same client. Hence the need for Browser Cookies to establish that a given HTTP request is related to previous ones, i.e., are part of a “session.”
+
+TCP/IP connects is statefull and  is ip stack the implementation of TCP/IP
+https://networkengineering.stackexchange.com/questions/48283/is-a-tcp-server-limited-to-65535-clients/48284
+
+If we get 13 partial connections into a version of Berkeley Unix it would crash abd burn means IP stack will stop responding becoz it didn't lnow which connection it should throw way to accept the 13 connection
+System socket table with 2048 entries
+
+An Information system (IS) is a formal, sociotechnical, organizational system designed to collect, process, store, and distribute information.
+
+Hypertext is text displayed on a computer display or other electronic devices with references (hyperlinks) to other text that the reader can immediately access.[1] Hypertext documents are interconnected by hyperlinks, which are typically activated by a mouse click, keypress set or by touching the screen. 
+
+The World Wide Web (WWW), commonly known as the Web, is an information system where documents and other web resources are identified by Uniform Resource Locators (URLs, such as https://example.com/), which may be interlinked by hypertext, and are accessible over the Internet.
+
+The resources of the Web are transferred via the Hypertext Transfer Protocol (HTTP), may be accessed by users by a software application called a web browser, and are published by a software application called a web server. 
+ 
+https://stackoverflow.com/questions/1575453/how-many-socket-connections-can-a-web-server-handle
+
+https://networkengineering.stackexchange.com/questions/48283/is-a-tcp-server-limited-to-65535-clients/48284
+
+SCM (Source Control Management) : github
+Bootstrapping refers to a self-starting process
+https://www.youtube.com/watch?v=2Bvz_jsQPHk
+
+
+Limited OEM : Samsumg xoime oppo Vio
+policy : certain information ( location/QOS/wifi status)  config will be pushed to mobile handset
+ANDSF client : STL provide library which RJIO can use to integrate it in mobile app ( Andriod is mostly the targeted OS)
+WLAN : wifi
+3GPP: location service
+PLMN : MNC and MCC combination ( identity uses location ( in which state ) each states has different PLMN
+
+ANDSF
+when how and where to offload dwcision is taking by client which will get the policies from server
+
+ANDSF SDK : component which will integration with mobile app
+
+Multi tenant :  if 1 ANDSF is available via any app, so other application will be slient
+
+policy pull request : sends 
+ANDSF consumes : 5% ram 2-3 % battery
+
+Battery ran out : disable some of functionally. 
+
+Maitrik Panchal
+Kamlesh Kanazariya > Analytics
+
+more or less
+
+green is padding 
+orange is margin
+console.log(hello)
+
+Max Number of default simultaneous persistent connections per server/proxy:
+
+In the case of transport protocols that do not implement a formal session layer (e.g., UDP) or where sessions at the application layer are generally very short-lived (e.g., HTTP), sessions are maintained by a higher level program using a method defined in the data being exchanged. For example, an HTTP exchange between a browser and a remote host may include an HTTP cookie which identifies state, such as a unique session ID, information about the user's preferences or authorization level.
+
+HTTP/1.0 was thought to only allow a single request and response during one Web/HTTP Session. Protocol version HTTP/1.1 improved this by completing the Common Gateway Interface (CGI), making it easier to maintain the Web Session and supporting HTTP cookies and file uploads.
+
+Most client-server sessions are maintained by the transport layer - a single connection for a single session. However each transaction phase of a Web/HTTP session creates a separate connection. Maintaining session continuity between phases requires a session ID. The session ID is embedded within the <A HREF> or <FORM> links of dynamic web pages so that it is passed back to the CGI. CGI then uses the session ID to ensure session continuity between transaction phases. One advantage of one connection-per-phase is that it works well over low bandwidth (modem) connections.
+
+Software implementation
+TCP sessions are typically implemented in software using child processes and/or multithreading, where a new process or thread is created when the computer establishes or joins a session. HTTP sessions are typically not implemented using one thread per session, but by means of a database with information about the state of each session. The advantage with multiple processes or threads is relaxed complexity of the software, since each thread is an instance with its own history and encapsulated variables. The disadvantage is large overhead in terms of system resources, and that the session may be interrupted if the system is restarted.
+
+When a client may connect to any server in a cluster of servers, a special problem is encountered in maintaining consistency when the servers must maintain session state. The client must either be directed to the same server for the duration of the session, or the servers must transmit server-side session information via a shared file system or database. Otherwise, the client may reconnect to a different server than the one it started the session with, which will cause problems when the new server does not have access to the stored state of the old one.
+
+Bootstrapping is building a something from the ground up with nothing
+
+1. Springboot ease the bootstrapping and development of new spring project by avoiding the tedious and boilersplate code & configuration.
+2. It is Auto dependency resoluion, Auto configuration and embedded HTTP servers( Jetty and tomcat ) 
+3. Since it has embedded servers, so provide production ready applications
+4. Read configuration from application.properties
+
+opinionated starter POMs
+4. For example if you include the spring boot starter pom for jpa, you'll get autoconfigured for you an in memory h2 database, a hibernate entity manager, and a simple datasource.
+
+Dev tools
+Springboot 1.3 added a new module called Dev tools to improve development time experience
+
+Actuator
+To manage and monitor application, include Actuator to view /health.json /metrics.json /heapdump.json /env.json /mapping.json /beans.json
+
+During system start, SQL files highlighted under spring.datasource.data=classpath*:data.sql is imported
+
+Interface for generic CRUD operations on a repository for a specific type.
+Repository<T,ID>
+Central repository marker interface. Captures the domain type to manage as well as the domain type's id type. General purpose is to hold type information as well as being able to discover interfaces that extend 
+this one during classpath scanning for easy Spring bean creation.
+
+They allow Spring to find your repository interfaces and create proxy objects for them.
+It provides you with methods that allow you to perform some common operations (you can also define your custom method as well). 
+
+
+@Valid
+@RestController is a convenience annotation that adds @ResponseBody to all return types of request methods. ... 
+The @Valid annotation attached to the method parameter tells Spring Boot to automatically instantiate a Validator and to validate the object. This check is performed before the method body is executed.Aug 26, 2019
+
+
+Why to use hibernate dialect?
+Hibernate.dialect property tells Hibernate to generate the appropriate SQL 
+statements for the chosen database.
+
+Hinernate is DB independent, so whatever Db we are going to use in our application, we have to define the corresponding to that dialect. E.g. for MYSQL DB, we have to define MYSQL dialect.
+
+DB has proprietary extension or native SQL variations and set and sunset SQL standards, so the hibernate has to use DB specfic SQL, so it use dialect configuration to know that which DB you are using so that it can switch to that DB specfic  SQL generator SQL code 
+
+
+String
+------
+Immutable: Once String is instanciated then it's state cann't be changed
+String s1 = "Hello"
+s1.toUpperCase(); --> genrates new string with Hello in caps
+
+Only string created as string literal is interned
+Since 1.7, string are stored in HEAP not in pergem
+
+Why string is immutable?
+String is the most widely used datatype in web applications and so in order to cache the string in string pool cache, it has made immutable
+SYSO("s1") --> will give Hello
+
+String s1="HellojhhgdhfHello";
+Pattern pattern = Pattern.compile("hello");
+Matcher matcher = pattern.matchers(s1);
+int count=0;
+while(mather.find()){
+      count++;
+}
+
+substring starts from 0
+SYSO(s1.substring(54)); --> StringIndexOutOfBoundsException
+SYSO(s1.length());--> will return empty string not StringIndexOutOfBoundsException
+
+java 1.7
+String is backed by Char array which stores the string values.
+Since 1.7 while creating the new string inside the subs
+ public String substring(int beginIndex, int endIndex) {
+	return ((beginIndex == 0) && (endIndex == count)) ? this :
+	    new String(offset + beginIndex, endIndex - beginIndex, value);
+    }
+SYSO(s1.substring(54)
+
+Since s1 char array is refering to to the original string char array, so original string will never be garbage collected and so memory leak
+
+StringBuffer and StringBuilder are data struture similar to String and they are mutable
+
++ oerator ns StringBuilder vs concat() --> concat() will take only string variable nit other datatype unlike StringBuilder and +.
+
+
+When we are using equals method to compare 2 string and it is advisable to use String Constant first followed by other string being computed by other methods.
+
+Storing password in String is not a good idea because if we atore a plain text password in string object, it may get stored in string pool and if someone gets the heapdump of our application then s/he can easily view it, so one of th ebest way to store password in application is Char array.
+
+A Map is an associative array data struture which can hold a key and value composition. HashMap is the implemantation of the Map. It is called HashMap because internally it uses hashing technique
+
+Hashing is a technique where we transform a large string or large object to a fixed length representation. This help us in faster indexing and lookups at the same 
+
+At low level, HashMap has table which is array of Node has basically 
+int hash
+K key
+V value
+Node<K,V> next --> pointer to next node
+
+Each index is a bucket and each bucket can be node or linkedList of node
+
+HashMap allows null key which always goes to index 0 as hash of null is 0
+
+get operation
+---------------
+-->find hash to get index
+--> match the hash and key and get the corresponding value
+
+When the unequal keys produces same hash and if the count increases more then 8 then since 1.8 bucket swtiches linked list implementation to balance tree where lower hash resides on left of balance tree.
+
+LinkedHashMap: 
+Insertion order is guaranteed, so lets say you have got bunch of element in sorted order from some DB, so in that case in order to maintain the sorted order, use this MAP. It internally uses doubly linked list
+
+TreeMap
+Iteration is guaranteed in natural order
+Either the key should implement Comparable interface or we have exlicitly provide COmparator in constructor.
+
+IdentityHashMap use reference equality rather then equal method while getting the values. 
+This can be used to store interned string and thus saves space.
+
+
+Defensive copying is a technique which mitigates the negative effects caused by unintentional (or intentional) modifications of shared objects. As the title indicates, instead of sharing the original object, we share a copy of it and thus any modification made to the copy will not affect the original object.
+
+soap has 10+ protocal like WS security, WS transaction, Soap protocal, WSDL. Rest focus on one thing that every resoucr o the web has a URI and just use JSON to send data and recieve data. We can use XML to do
+so but JSON is light weight. What payload you are sending in HTTP, REST does not care that. It leave to developer to figure it out 
+
+corelationID should be used when 2 microservice talk to each. This can be used to identify any issue if needed.
+
+Securing the monilith application
+1. We only need to auth resquest once per user request.
+        No session
+                Verify user credentails
+                Get the user roles
+                Start a user session
+         Yes session
+                 Verfity session not expired
+2. Request/response is handled in process                                        MS2
+                                                                                                              |
+HTTPS------> IB ---> Gateway(auth+ gatekeeper for routing) ---->MS1--->MS3 
+
+MongoDB stores data in flexible JSON like documents. The document model maps to the objects in your application code making data easy to work with
+MongoDB is distributed database at its core, so high availabity and horizonal scaling is very easy.
+
+Horizontal scaling --> adding more machines
+Vertical scaling --> adding more resources ( RAM & CPU )
+
+
+
+SOA vs Mircoservices
+break the application into many components which can be reused by others but not deployment is not independent.
+Invloves stringint specs/protocal
+
+
+@GetMappping("/{id}")
+ResponseEntity<Book> bookOne(@PathVariable("id") Long id)
+
+
+Knowledge based Auth : Password, Pin code, Answer to a secret/personel questions
+                                       Impersonate as you
+Possession based auth : Phone/Text messages, Keycards and badges, Acess token device
+
+Multi factor Auth : combinate of both above
+Granted Authorties: permission/access for the principal 
+Role : group of Granted Authorties which is more coarse grained 
+
+Principal : it is currently logged in user
+webhook --> Jenkins server URL as payload url + Trigger events
