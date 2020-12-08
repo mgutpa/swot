@@ -1,0 +1,110 @@
+Java has always had a concept of strong reference. SO when we create an object using new, we always gets strong reference.
+and such object does not get garbage collected unless all these reference to this object is release.
+
+But since java 2, there are other types of references are available to us. These are special class under java.lang.ref packages. And 
+these class are called as 
+1. Soft reference : These reference will GC'd if there is memory pressure
+2. Weak reference : Weak will GC'd immediately
+3. Phantom reference : are different from above 2. Can't retrieve the object through a phantom reference
+
+Reference Rules
+---------------
+Strong->Soft->Weak->Phantom
+
+Person p = new Person();
+WeakReference<Person> wr = new WeakReference<Person>(person);
+
+	p---------------> |-------------|
+			Strong	  |person object|
+			 ref	  |-------------|
+					        /|\
+					         | weak ref
+	wr--------------> |------|-------|
+					  |person weakref|
+					  |--------------|	
+					  
+	Call get method of wr, it will return strong reference
+	Person p = wr.get();
+	
+	Now do person (p) = null. 
+	
+				  		|-------------|
+				  		|person object|      So the strong reference no longer exist and only weak reference exist on person. Lets
+			 	  		|-------------|      assume that GC has not run yet and we call wr get method then Strong person reference 
+					        /|\              can be retrieved.  Person p = wr.get();
+					         | weak ref
+	wr--------------> 	|------|-------|
+					  	|person weakref|
+					  	|--------------|	
+					  	
+	BUT if the GC has run, then weak reference will point to NULL and if we call wr.get() then it will return null.
+	
+	                          null
+	                          /|\ 
+	wr--------------> 	|------|-------|
+					  	|person weakref|
+					  	|--------------|			  
+					  	
+					  	
+   Weak reference : It is used in conjunction of weakHashMap. Used to associate meta data with another type.
+   Soft reference : Can be used for caching. Let say we have loaded a huge data say a heavy image. This will be strong reference.
+   					Now lets create a soft reference to this object and make strong ref to NULL, so in case of memory presuure it
+   					can be GC'd else can be retrieved anytime using get method call.
+  
+   Phantom Reference: used to interact with GC. We can inform GC to perform some extra work when the object is being GC'd. Similar to Java 
+					  finalize method. So phantom reference can be an alternate of finalise.
+   
+   
+   WeakHashMap
+   ----------
+   A weak reference object as a key and as the value to this key we stores objects metadata
+   
+   
+   ReferenceQueue
+   --------------
+   Pass a reference queue to constructor when creating the reference object
+     - Optionally except for PhantomReference
+   References types enqueued to ReferenceQueue
+   Useful when we want to associate some cleanup mechanism with an object
+   
+   When all strong references cleared
+     - References object is added to the reference queue
+     
+   ReferenceQueue has poll and remove methods
+     - poll returns immediately( return either the reference if available in Queue else return NULL)
+     - remove() has a timeout : It will block until there is reference on the queue and will return the reference back.
+     	- if the timer expires, it returns NULL
+   
+   
+   Example
+   ------
+   
+   		Person2 person = new Person2();
+		ReferenceQueue<Person2> referenceQueue = new ReferenceQueue<>();
+		PersonCleanup cleaner = new PersonCleanup();
+		PersonWeakReference personWeakReference = new PersonWeakReference(person, cleaner, referenceQueue);
+   
+   
+   1. Can be used to attach clean up code
+       - Extend reference Type
+   2. When all strong references cleared i.e person = null;
+       - WeakReference object added to queue i.e personWeakReference will added to the queue
+   3. Dequeue object from the queue
+       - call it's clean up method
+       
+  
+  Phantom Reference
+  -----------------
+  When a strong reference is wrapped inside PR and we call GET
+  Its get method always return NULL
+  
+  Use case
+  --------
+  Used instead of finalizers
+  Finalizers have issues
+     - Can be Expensive : When we create a class and has a finalize method, Than garbage collector needs to knows about it because it has to call finalize once the object
+                          is no longer reachable which means when such object is created, there is some piece of code which informs the GC, So the reference to the finalized 
+                          logic kept by the runtime so these object will survive by at least 1 GC as the runtime itself hold on to a reference of these things and finally
+                          the runtime calls this finalize method to release the object. 
+     
+   
