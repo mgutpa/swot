@@ -1,0 +1,105 @@
+Open industry standard called RFC 7519 which outline, How a JWT should be structure and how to use it for exchanging information or 
+claim.
+
+Problem with session ID token to remember session become difficult when we have a load balancer where in LB can send the 1st of a client
+to server 1 and the 2nd request of the same user to server 2. To mitigate this issue, shared session cache( using Redis)
+
+user --> Load balancer --> Server 1  --->|
+					   |                 |
+					   |--> Server 2 --->|-----> Shared cache Radis( problem in this approach is that if this Radis cache is down then
+					   |                 |       all the session will be down, so most of implementation does not implement this. They
+					   |--> Server 3 --->|	     follow sticky session pattern which basically the Load balancer remembers which server 
+					                             given the user session and it always redirects request from that user to that specfic 
+					                             server but this is not that scalable, Imagine the cases of microservices where there are
+					                             multiple servers working with each other and so how the session information get carried 
+					                             away between all these different micro instances which is tricky.
+					                             
+Lets propose a solution. Support representative who is handling the customer, instead of creating a seperate/managing the ticket ID in
+the system wherein he has to share the info to the next reps in shift, s/he can write the customer details in a piece of paper(as Token)
+and hand it over to customer and tell him when he comes again. SO in this Representative s not keeping any session info of customer
+It will customer who will share all the previous details to new reps. For any melicous request, reps should always validate the
+signature if the customer. This switched model is what is implied in JWT mechanism. SO instead of sharing the session ID, share
+the stored session itself to customer in the form of JSON payload. Everytime the customer makes any call, client should send the 
+while json token with the request( This is WHO I am and this is my ID and this is my name). This is token is called as JSON WEB TOKEN
+
+Using Token
+1. Session Token --> Refer to a state in a server so reference token
+2. JSON web token --> It itself contains the values
+=====================================================
+
+What is the struture if JWT?
+Typically JWT looks like this --> xxxxx.yyyyy.zzzzz [ Looks like bunch of random chars ]. This is split into 3 different parts
+___________________
+|   HEADER         |
+ ------------------
+|  PAYLOAD         |                 Go to jwt.io and play with JWT
+ ------------------
+|  Signature       |
+ -------------------
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9. ( has type and algorithm to verify the signature --> base64 ecoded )
+					{
+					  "alg": "HS256",
+					  "typ": "JWT"
+					}
+
+eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ. ( Users data --> base64 ecoded)
+					{
+					  "sub": "1234567890",
+					  "name": "John Doe",
+					  "iat": 1516239022
+					}
+
+SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c --> Only the server can create this signature using a secret 
+
+					HMACSHA256(
+					  base64UrlEncode(header) + "." +
+					  base64UrlEncode(payload),
+					  
+					your-256-bit-secret	)
+
+ JWT is AUTHORISATION mechanism and comes into picture after AUTHENTICATION. This AUthorisation token can be passed in HTTP Header
+ with key AS Authorization and Value AS Bearer <JWT>
+ 
+ What if someone steals my JWT  and uses it themselves?
+ Technically it is possible. So we have to be careful while transmitting JWT. It has be an HTTPS connection and it should be in conjunction
+ of bunch of another authentication and authorization mechanism. One going way is using the process of OAUTH for auth and author.
+ 
+ How do you disable a JWT?
+ In case of session token, if someone steals my sessionID and uses it then we can logoff and login which will generate fresh token.
+ Similarly for JWT mechanism, server should maintain Blacklist JWT.
+ 
+ Goptri, meaning 'protector' or 'governor
+ 
+ ================================================= OAuth Flows ========================================
+ 
+ 1. Resource (Also known as Protected resource ) : It is something which is being sought by different actors in oAUth flow
+    So in the example of Photo printing Service trying to access Google Drive for the user photos.. Here the photos on the google drive
+    is the resource. 
+ 2. Resource owner : An entity capable of granting access to a protected resource. Here the person who trying to print photo has
+    the rights to grant access to the photos of Google drive 
+    
+ 3. Resource server : The server hosting the protected resources. Here GOOGLE DRIVE is the resource.
+ 
+ 4. Client : An application making protected resource requests on behalf of the resource owner and with its authorization 
+  
+ Note : Authorization server has the burden of security and is responsible for make sure the client gets the right authorisation of the resource'
+ 
+ 5. Authorization Server : The server who is issuing access tokens  to the client. Resource server just manages the resouce.
+ 
+ OAuth Flow:
+ ==========
+ 1. Printer call Auth server for access token
+ 2. AS talk to Resource owner for the permission
+ 3. If Yes, then, AS sends Authentication token to client
+ 4. Client sends request for access token
+ 5. AS gives Access token to client
+ 6. Client sends request to resource server along with access token
+ 7. RS gives the photos to Client.
+ 
+ In case of Implicit flow, AS gives the access token in the first call itself. This can be with short lived access tokens.
+ Used in Java scripts apps.
+ 
+ 
+					   
+	
