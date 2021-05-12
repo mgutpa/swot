@@ -238,7 +238,7 @@ This can be used to store interned string and thus saves space.
 
 Defensive copying is a technique which mitigates the negative effects caused by unintentional (or intentional) modifications of shared objects. As the title indicates, instead of sharing the original object, we share a copy of it and thus any modification made to the copy will not affect the original object.
 
-soap has 10+ protocal like WS security, WS transaction, Soap protocal, WSDL. Rest focus on one thing that every resoucr o the web has a URI and just use JSON to send data and recieve data. We can use XML to do
+soap has 10+ protocal like WS security, WS transaction, Soap protocal, WSDL. Rest focus on one thing that every resourse in the web has a URI and just use JSON to send data and recieve data. We can use XML to do
 so but JSON is light weight. What payload you are sending in HTTP, REST does not care that. It leave to developer to figure it out 
 
 corelationID should be used when 2 microservice talk to each. This can be used to identify any issue if needed.
@@ -282,3 +282,12 @@ Role : group of Granted Authorties which is more coarse grained
 
 Principal : it is currently logged in user
 webhook --> Jenkins server URL as payload url + Trigger events
+
+
+
+Soap API
+--------
+Client API -->  SEI -->  WS
+
+Java Client using wsimport command can generate the SEI which is platform dependent
+Client than call the service/method of this SEI. SEI converts this method call to soap request 

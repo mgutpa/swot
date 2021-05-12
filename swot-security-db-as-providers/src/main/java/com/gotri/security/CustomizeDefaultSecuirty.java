@@ -18,6 +18,9 @@ public class CustomizeDefaultSecuirty extends WebSecurityConfigurerAdapter {
 	private DataSource dataSource;
 
 	/**
+	 * AuthenticationManagerBuilder: As builder pattern say that it can be used when you multiple states of an object and all
+	 * the states details may not be mandatory to populate. So AuthenticationManagerBuilder just builds the AuthenticationManager
+	 *  
 	 * Behind the seen, its filter DelegatingFilterProxy which does the bootstrapping. URL pattern by default is "/*"
 	 * When user enters credentials, its credential is added inside authentication object and it goes to the authenticate method
 	 * Authentication provider. This methods validates the shared credentials against the DB/InMemory/LDAP entries and return
@@ -27,7 +30,7 @@ public class CustomizeDefaultSecuirty extends WebSecurityConfigurerAdapter {
 	 * return the userDetails ( Has getAuthority, Password, Username, IsAccountNonExpired, isAccountNotLocked,isEnables) object
 	 * 
 	 * So Delegating filter creates authentication object using the credential entered by user and calls the authenticate method of 
-	 * Manager which inturn calls the appropriate providers. Provider the using userDetailsService gets the userDetails object
+	 * Manager which inturn calls the appropriate providers. Provider using userDetailsService gets the userDetails object
 	 * and return the modified authentication object which is then placed inside a security context ThreadLocal object and is used
 	 * during Authorization. After this a session filter takes this authenticated object and place it inside the session, so that we
 	 * don't have to authenticate for any subsequent request. This is also responsible for taking the context from session and set it

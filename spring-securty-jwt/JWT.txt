@@ -85,7 +85,8 @@ SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c --> Only the server can create this 
   
  Note : Authorization server has the burden of security and is responsible for make sure the client gets the right authorisation of the resource'
  
- 5. Authorization Server : The server who is issuing access tokens  to the client. Resource server just manages the resouce.
+ 5. Authorization Server : The server who is issuing access tokens  to the client. Resource server just manages the resouce. It can be clubbbed with resource server or 
+ 	will be other server.
  
  OAuth Flow:
  ==========
